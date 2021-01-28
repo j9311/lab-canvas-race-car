@@ -28,7 +28,7 @@ blockImg.src = "./images/jb.png"
 
 
 let speedMultiplier = 1;
-let startSpeed = 1;
+let startSpeed = .2;
 // herr bezos//
 class Block {
   constructor(x, y, w, h, img) {
@@ -41,8 +41,9 @@ class Block {
   draw() {
     this.y += startSpeed*speedMultiplier;
     ctx.drawImage(this.img, this.x, this.y, this.w, this.h)
+    collisionDetection(this, punishedElon)
   }
-  collisionDetection(this, punishedElon)
+  
 }
 
 //blob.assign//
@@ -56,10 +57,10 @@ let blocks = []
 //working area//
 setInterval(function () {
   console.log('check')
-  let blockOne = new Block (Math.random()*400, 0, 75, 75, blockImg)
+  let blockOne = new Block (Math.random()*400, 0, 25, 25, blockImg)
   blocks.push(blockOne)
   console.log(blocks)
-}, 1000)
+}, 1500)
 
 
 function drawBezosOne() {
@@ -70,7 +71,7 @@ function drawBezosOne() {
 
 setInterval(function () {
   console.log('check')
-  let blockTwo = new Block (Math.random()*400, 0, 75, 75, blockImg)
+  let blockTwo = new Block (Math.random()*400, 0, 35, 35, blockImg)
   speedMultiplier = Math.min(speedMultiplier + .02, 3)
   blocks.push(blockTwo)
   console.log(blocks)
@@ -85,7 +86,7 @@ function drawBezosTwo() {
 
 setInterval(function () {
   console.log('check')
-  let blockThree = new Block (Math.random()*400, 0, 75, 75, blockImg)
+  let blockThree = new Block (Math.random()*400, 0, 45, 45, blockImg)
   blocks.push(blockThree)
   console.log(blocks)
 }, 1000)
@@ -107,25 +108,22 @@ function drawBezosThree() {
 
 
 
-function collisionDetection(punishedElon, Block) {
-
-  if (punishedElon.x < Block.x + Block.w &&
-      punishedElon.x + punishedElon.w > Block.x &&
-      punishedElon.y < Block.y + Block.h &&
-      punishedElon.y + punishedElon.h > Block.y) {
-      // collision detected!
-      alert('collision detected')
-      console.log('collision!!!')
-      cancelAnimationFrame(interval)
-  }
+function collisionDetection (rect1, rect2) {
+  if (rect1.x < rect2.x + rect2.w &&
+    rect1.x + rect1.w > rect2.x &&
+    rect1.y < rect2.y + rect2.h &&
+    rect1.y + rect1.h > rect2.y) {
+     // collision detected!
+     //alert("Collision detected")
+     alert("Collision detected")
+     cancelAnimationFrame(gameLoop)
+ }
 }
 
-
-let interval=null
-
+let gameloop;
 //engine//
 function animate() {
-  let gameLoop = requestAnimationFrame(animate)
+  gameLoop = requestAnimationFrame(animate)
   console.log("animate")
   ctx.clearRect(0, 0, canvas.width, canvas.height)
   ctx.drawImage(roadImg, road.x, road.y, road.w, road.h)
